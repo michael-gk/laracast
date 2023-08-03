@@ -27,14 +27,10 @@
                             </div>
                         </header>
 
-                        <div class="text-sm mt-2">
-                            <p>
-                                {{ $post->excerpt }}
-                            </p>
+                        <div class="text-sm mt-4 space-y-4">
+                         
+                                {!! $post->excerpt !!}
 
-                            <p class="mt-4">
-                                Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-                            </p>
                         </div>
 
                         <footer class="flex justify-between items-center mt-8">
