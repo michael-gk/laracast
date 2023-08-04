@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Category;
 
 class Post extends Model
 {
@@ -20,6 +21,21 @@ class Post extends Model
 
     // makes sthe following fields fillable
     // protected $fillable = ['title'];
+
+    public function scopeFilter($query, array $filters)
+    {
+        $query->when($filters['search'] ?? false, function ($query, $search) {
+            $query
+                ->where('title', 'like', '%' . $search . '%')
+                ->orWhere('body', 'like', '%' . $search . '%');
+        });
+    
+        $query->when($filters['category'] ?? false, fn($query, $category) =>
+            $query->whereHas('category', fn ($query) => $query->where('slug', $category))
+        );
+        
+    }
+    
 
 
     public function getRouteKeyName()
@@ -38,6 +54,4 @@ class Post extends Model
         // Eloquent relationships: hasOne, hasMany, belongsTo, belongsToMany
         return $this->belongsTo(User::class, 'user_id');
     }
-
-
 }
